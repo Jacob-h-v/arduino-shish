@@ -43,8 +43,8 @@ void setup() {
   devStatus = mpu.dmpInitialize();
 
   mpu.setXGyroOffset(0);
-  mpu.setYGyroOffset(0);
-  mpu.setZGyroOffset(0);
+    mpu.setYGyroOffset(0);
+    mpu.setZGyroOffset(0);
   mpu.setZAccelOffset(1788);
 
   if (devStatus == 0) {
@@ -78,9 +78,9 @@ void loop() {
 
   if (newDataAvailable /*&& Serial.available() > 0*/) {
 
-    x1 = ypr[0];
-    y1 = ypr[1];
-    z1 = ypr[2];
+    x1 = (ypr[0] * 180/M_PI);
+    y1 = (ypr[1] * 180/M_PI);
+    z1 = (ypr[2] * 180/M_PI);
 
     Serial.print("<START>");
     Serial.print(x1);
