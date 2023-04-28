@@ -25,6 +25,9 @@ VectorFloat gravity;
 float gyroX;
 float gyroY;
 float gyroZ;
+float x1;
+float y1;
+float z1;
 float euler[3];
 float ypr[3];
 
@@ -73,10 +76,23 @@ void loop() {
   }
 
 
-  if (newDataAvailable && Serial.available() > 0) {
+  if (newDataAvailable /*&& Serial.available() > 0*/) {
+
+    x1 = ypr[0];
+    y1 = ypr[1];
+    z1 = ypr[2];
+
+    Serial.print("<START>");
+    Serial.print(x1);
+    Serial.print(",");
+    Serial.print(y1);
+    Serial.print(",");
+    Serial.print(z1);
+    Serial.println("<END>");
+
     //Serial.println("Uno received: " + incomingChar);
-    char incomingChar = Serial.read();
-    if (incomingChar == 'e') {
+    /*char incomingChar = Serial.read();
+    //if (incomingChar == 'e') {
       gyroX = (ypr[0] * 180/M_PI);
       gyroY = (ypr[1] * 180/M_PI);
       gyroZ = (ypr[2] * 180/M_PI);
@@ -85,9 +101,8 @@ void loop() {
       String gyroZStr = String(gyroZ, 2);
 
       String dataToSend = gyroXStr + "\t" + gyroYStr + "\t" + gyroZStr + "\n";
-      Serial.print(dataToSend);
+      Serial.print(dataToSend);*/
 
       newDataAvailable = false;
     }
   }
-}
