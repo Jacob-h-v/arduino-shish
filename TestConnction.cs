@@ -8,18 +8,27 @@ public class TestConnction : MonoBehaviour
 { 
     Thread IOThread = new Thread(DataThread);
     private static SerialPort pulseStream;
-    private static SerialPort gyroStream
+    private static SerialPort gyroStream;
     private static string incomingPulseMsg = "";
     private static string outgoingPulseMsg = "";
     private static string incomingGyroMsg = "";
     private static string outgoingGyroMsg = "";
+    private static string pulseMessage = "";
+
+    public float BPM;
+    /*public string receivestring;
+    public GameObject test_data;
+    public Rigidbody rb;
+    public float sensitivity = 0.01f;
+    public string[] datas;
+    */
 
     private static void DataThread()
     {
-        pulseStream = new SerialPort("COM3", 115200);
-        gyroStream = new SerialPort("COM5", 115200);
+        pulseStream = new SerialPort("COM6", 115200);
+        // gyroStream = new SerialPort("COM5", 115200);
         pulseStream.Open();
-        gyroStream.Open();
+        // gyroStream.Open();
 
         while(true)
         {
@@ -29,27 +38,29 @@ public class TestConnction : MonoBehaviour
                 outgoingPulseMsg = "";
             }
             incomingPulseMsg = pulseStream.ReadExisting();
+            //Debug.Log($"incoming pulse {incomingPulseMsg}");
             if (outgoingGyroMsg != "")
             {
                 gyroStream.Write(outgoingGyroMsg);
                 outgoingGyroMsg = "";
             }
-            incomingGyroMsg = gyroStream.ReadExisting();
+            // incomingGyroMsg = gyroStream.ReadExisting();
             Thread.Sleep(200);
         }
     }
 
-    private void OnDestroy()
+    void OnDestroy()
     {
         IOThread.Abort();
         pulseStream.Close();
-        gyroStream.Close();
+        // gyroStream.Close();
     }
 
     // Start is called before the first frame update
     void Start()
     {
         IOThread.Start();
+        //data_stream.Open(); //Initiate the Serial stream
     }
 
     // Update is called once per frame
@@ -57,13 +68,14 @@ public class TestConnction : MonoBehaviour
     {
         if (incomingPulseMsg != "")
         {
-            Debug.Log($"Pulse signal: {incomingPulseMsg}");
+            //Debug.Log($"Pulse signal: {incomingPulseMsg}");
+            pulseMessage = incomingPulseMsg.Substring("<START>".Length, incomingPulseMsg.Length - "<START>".Length - "<END>".Length);
+            BPM = float.Parse(pulseMessage);
         }
 
         if (incomingGyroMsg != "")
         {
             Debug.Log($"Gyro signal: {incomingGyroMsg}");
         }
-
     }
 }
