@@ -10,7 +10,7 @@ int Signal;
 PulseSensorPlayground pulseSensor;  // Creates an instance of the PulseSensorPlayground object called "pulseSensor"
 
 void setup() {        
-  Serial.begin(115200);     
+  Serial.begin(9600);     
    
   // Configure the PulseSensor object, by assigning our variables to it. 
   pulseSensor.analogInput(PulseWire);
